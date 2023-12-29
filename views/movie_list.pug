@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1= title
+  
+  if movie_list.length
+    ul
+      each movie in movie_list
+        li
+          a(href=movie.movie_url) #{movie.title}
+          |  (#{movie.director.nameForMovieList})
+
+  else
+    p There are no movies here.

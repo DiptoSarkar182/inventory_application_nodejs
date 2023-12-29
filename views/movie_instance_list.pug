@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  h1= title
+
+  if movie_instance_list.length
+    ul
+      each val in movie_instance_list
+        li
+          a(href=val.movie_instance_url) #{val.movie.title} : #{val.imprint} -&nbsp;
+          if val.status=='Available'
+            span.text-success #{val.status}
+          else if val.status=='Maintenance'
+            span.text-danger #{val.status}
+          else
+            span.text-warning #{val.status}
+          if val.status!='Available'
+            span  (Due: #{val.due_back_formatted})
+
+  else
+    p NO MOVIES AVAILABLE!.

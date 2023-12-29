@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1= title
+  
+  if director_list.length
+    ul
+      each director in director_list
+        li
+          a(href=director.director_url) #{director.name}
+          |  (#{director.lifespan})
+
+  else
+    p There are no directors here.
