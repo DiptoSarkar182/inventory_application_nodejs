@@ -1,0 +1,20 @@
+extends layout
+
+block content
+
+  h1 ID: #{movie_instance_detail._id}
+
+  p #[strong Title: ]
+    a(href=movie_instance_detail.movie.movie_url) #{movie_instance_detail.movie.title}
+  p #[strong Imprint:] #{movie_instance_detail.imprint}
+
+  p #[strong Status: ]
+    if movie_instance_detail.status=='Available'
+      span.text-success #{movie_instance_detail.status}
+    else if movie_instance_detail.status=='Maintenance'
+      span.text-danger #{movie_instance_detail.status}
+    else
+      span.text-warning #{movie_instance_detail.status}
+
+  if movie_instance_detail.status!='Available'
+    p #[strong Due back:] #{movie_instance_detail.due_back_formatted}

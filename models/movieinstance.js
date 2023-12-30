@@ -17,7 +17,7 @@ const MovieInstanceSchema = new Schema({
 
 MovieInstanceSchema.virtual("movie_instance_url").get(function () {
    
-  return `/catalog/bookinstance/${this._id}`;
+  return `/catalog/movieinstance/${this._id}`;
 });
 
 MovieInstanceSchema.virtual("due_back_formatted").get(function () {

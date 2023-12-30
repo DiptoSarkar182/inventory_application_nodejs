@@ -1,3 +1,4 @@
+const { body, validationResult } = require("express-validator");
 const Movie = require('../models/movie');
 const Director = require('../models/director');
 const Genre = require('../models/genre');
@@ -13,3 +14,17 @@ exports.director_list = asyncHandler(async (req,res,next)=>{
         director_list: allDirectors,
     });
 });
+
+exports.director_detail = asyncHandler(async (req,res,next)=>{
+    const [director, allMoviesByDirector] = await Promise.all([
+        Director.findById(req.params.id).exec(),
+        Movie.find({director: req.params.id},
+            "title summary").exec(),
+    ]);
+
+    res.render("director_detail", {
+        title: "Director Details",
+        director: director,
+        director_of_movies: allMoviesByDirector,
+    })
+})

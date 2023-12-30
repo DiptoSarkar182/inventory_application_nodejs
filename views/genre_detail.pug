@@ -1,0 +1,17 @@
+extends layout
+
+block content
+
+  h1 Genre: #{genre.name}
+
+  div(style='margin-left:20px;margin-top:20px')
+
+    h4 Movies
+    if genre_movie.length
+      dl
+        each movie in genre_movie
+          dt
+            a(href=movie.movie_url) #{movie.title}
+          dd #{movie.summary}
+    else
+      p This genre has no movies here.

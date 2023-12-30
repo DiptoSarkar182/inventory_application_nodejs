@@ -1,0 +1,19 @@
+extends layout
+
+block content
+
+  h1 Director: #{director.name}
+  p #{director.lifespan}
+
+  div(style='margin-left:20px;margin-top:20px')
+
+    h4 Movies
+    if director_of_movies.length
+      dl
+        each movie in director_of_movies
+          dt
+            a(href=movie.movie_url) #{movie.title}
+          dd #{movie.summary}
+    else
+      p This director has no movies.
+

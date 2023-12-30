@@ -15,3 +15,18 @@ exports.movie_instance_list = asyncHandler(
         })
     }
 )
+
+exports.movie_instance_detail = asyncHandler(async (req,res,next)=>{
+    const movieinstance = await MovieInstance
+    .findById(req.params.id).populate("movie").exec();
+
+    if(movieinstance === null){
+        const err = new Error("No copy available");
+        err.status = 404;
+        return next();
+    }
+    res.render("movie_instance_detail", {
+        title: "Movie instance detail",
+        movie_instance_detail: movieinstance,
+    })
+})
