@@ -15,3 +15,8 @@ block content
           dd #{movie.summary}
     else
       p This genre has no movies here.
+  hr
+  p
+    a(href=genre.genre_url+'/delete') Delete genre
+  p
+    a(href=genre.genre_url+'/update') Update genre

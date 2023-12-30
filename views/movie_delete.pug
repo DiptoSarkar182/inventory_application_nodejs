@@ -1,0 +1,50 @@
+extends layout
+
+block content
+
+  h1 #{title}: #{movie.title}
+
+  p #[strong Director: ]
+    a(href=movie.director.director_url) #{movie.director.name}
+  p #[strong Summary:] #{movie.summary}
+  p #[strong IMDB Rating:] #{movie.rating}/10
+  p #[strong IMDB Link:] 
+    a(href=movie.url, target="_blank") #{movie.url}
+  p #[strong Genre: ]
+    each val, index in movie.genre
+      a(href=val.genre_url) #{val.name}
+      if index < movie.genre.length - 1
+        |,&nbsp;
+
+  hr
+
+  if movie_instances.length
+
+    p #[strong Delete the following copies before attempting to delete this Movie.]
+
+    div(style='margin-left:20px;margin-top:20px')
+
+      h4 Copies
+
+      each movie_copy in movie_instances
+        hr
+        if movie_copy.status=='Available'
+          p.text-success #{movie_copy.status}
+        else if movie_copy.status=='Maintenance'
+          p.text-danger #{movie_copy.status}
+        else
+          p.text-warning #{movie_copy.status}
+        p #[strong Imprint:] #{movie_copy.imprint}
+        if movie_copy.status!='Available'
+          p #[strong Due back:] #{movie_copy.due_back}
+        p #[strong Id:]
+          a(href=movie_copy.movie_instance_url) #{movie_copy._id}
+
+  else
+    p Do you really want to delete this Movie?
+
+    form(method='POST')
+      div.form-group
+        input#id.form-control(type='hidden',name='id', value=movie._id )
+
+      button.btn.btn-primary(type='submit') Delete

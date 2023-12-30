@@ -1,0 +1,33 @@
+extends layout
+
+block content
+
+  h1= title
+
+  p #[strong Do you really want to delete this Movie Instance?]
+
+  div(style="margin-left:20px")
+
+    p #[strong ID]: #{movieinstance._id}
+
+    p #[strong Title: ]
+      a(href=movieinstance.movie.movie_url) #{movieinstance.movie.title}
+
+    p #[strong Imprint:] #{movieinstance.imprint}
+
+    p #[strong Status: ]
+      if movieinstance.status=='Available'
+        span.text-success #{movieinstance.status}
+      else if movieinstance.status=='Maintenance'
+        span.text-danger #{movieinstance.status}
+      else
+        span.text-warning #{movieinstance.status}
+
+    if movieinstance.status!='Available'
+      p #[strong Due back:] #{movieinstance.due_back_formatted}
+
+  form(method='POST')
+    div.form-group
+      input#id.form-control(type='hidden',name='id', value=movieinstance._id )
+
+    button.btn.btn-primary(type='submit') Delete

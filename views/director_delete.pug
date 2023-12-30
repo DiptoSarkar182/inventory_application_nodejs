@@ -1,0 +1,26 @@
+extends layout
+
+block content
+
+  h1 #{title}: #{director.name}
+  p= director.lifespan
+
+  if director_movies.length
+
+    p #[strong Delete the following movies before attempting to delete this director.]
+    div(style='margin-left:20px;margin-top:20px')
+      h4 Movies
+      dl
+        each movie in director_movies
+          dt
+            a(href=movie.movie_url) #{movie.title}
+          dd #{movie.summary}
+
+  else
+    p Do you really want to delete this Director?
+
+    form(method='POST')
+      div.form-group
+        input#directorid.form-control(type='hidden', name='directorid', value=director._id )
+
+      button.btn.btn-primary(type='submit') Delete

@@ -1,0 +1,39 @@
+extends layout
+
+block content
+  h1=title
+
+  form(method='POST')
+    div.form-group
+      label(for='movie') Movie:
+      select#movie.form-control(name='movie' required)
+        option(value='') --Please select a movie--
+        for movie in movie_list
+          if selected_movie==movie._id.toString()
+            option(value=movie._id, selected) #{movie.title}
+          else
+            option(value=movie._id) #{movie.title}
+
+    div.form-group
+      label(for='imprint') Imprint:
+      input#imprint.form-control(type='text' placeholder='shop information' name='imprint' required )
+    div.form-group
+      label(for='due_back') Date when movie available:
+      input#due_back.form-control(type='date' name='due_back')
+
+    div.form-group
+      label(for='status') Status:
+      select#status.form-control(name='status' required)
+        option(value='') --Please select a status--
+        each val in ['Maintenance', 'Available', 'Loaned', 'Reserved']
+          if undefined===movieinstance || movieinstance.status!=val 
+            option(value=val)= val
+          else
+            option(value=val selected)= val
+
+    button.btn.btn-primary(type='submit') Submit
+
+  if errors
+    ul
+      for error in errors
+        li!= error.msg

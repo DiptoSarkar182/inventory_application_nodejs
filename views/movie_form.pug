@@ -1,0 +1,46 @@
+extends layout
+
+block content
+  h1= title
+
+  form(method='POST')
+    div.form-group
+      label(for='title') Title:
+      input#title.form-control(type='text', placeholder='Name of movie' name='title' required )
+    div.form-group
+      label(for='director') Director:
+      select#director.form-control(name='director' required)
+        option(value='') --Please select an director--
+        for director in directors
+          if movie
+            if director._id.toString()===movie.director._id.toString()
+              option(value=director._id selected) #{director.name}
+            else
+              option(value=director._id) #{director.name}
+          else
+            option(value=director._id) #{director.name}
+    div.form-group
+      label(for='summary') Summary:
+      textarea#summary.form-control(placeholder='Summary' name='summary' required)
+    div.form-group
+      label(for='imdb_url') IMDB URL:
+      input#imdb_url.form-control(type='text', placeholder='https://www.imdb.com/title/tt1160419/' name='imdb_url' required)
+    div.form-group
+      label(for='imdb_rating') IMDB Rating:
+      input#imdb_rating.form-control(type='number', placeholder='(1.0-10.0)', name='imdb_rating', min='1.0', max='10.0', step='0.1', required)
+    div.form-group
+      label Genre:
+      div
+        for genre in genres
+          div(style='display: inline; padding-right:10px;')
+            if genre.checked
+              input.checkbox-input(type='checkbox', name='genre', id=genre._id, value=genre._id, checked)
+            else
+              input.checkbox-input(type='checkbox', name='genre', id=genre._id, value=genre._id)
+            label(for=genre._id) &nbsp;#{genre.name}
+    button.btn.btn-primary(type='submit') Submit
+
+  if errors
+    ul
+      for error in errors
+        li!= error.msg

@@ -16,4 +16,9 @@ block content
           dd #{movie.summary}
     else
       p This director has no movies.
+  hr
+  p
+    a(href=director.director_url+'/delete') Delete director
+  p
+    a(href=director.director_url+'/update') Update director
 

@@ -18,3 +18,8 @@ block content
 
   if movie_instance_detail.status!='Available'
     p #[strong Due back:] #{movie_instance_detail.due_back_formatted}
+  hr
+  p
+    a(href=movie_instance_detail.movie_instance_url+'/delete') Delete Movie Instance
+  p
+    a(href=movie_instance_detail.movie_instance_url+'/update') Update Movie Instance
