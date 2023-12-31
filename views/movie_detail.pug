@@ -3,6 +3,8 @@ extends layout
 block content
   h1 Title: #{movie.title}
 
+  img(src=`/uploads/poster/${movie.image}`, alt=`${movie.title}`)
+
   p #[strong Director: ]
     a(href=movie.director.director_url) #{movie.director.name}
   p #[strong Summary:] #{movie.summary}

@@ -3,6 +3,7 @@ extends layout
 block content
 
   h1 Director: #{director.name}
+  img(src=`/uploads/director/${director.image}`, alt=`${director.name}`)
   p #{director.lifespan}
 
   div(style='margin-left:20px;margin-top:20px')

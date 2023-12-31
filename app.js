@@ -1,8 +1,9 @@
 var createError = require('http-errors');
 var express = require('express');
-var path = require('path');
+const path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const multer = require("multer");
 //const dev_db_url = require('./mongoDB_uri');
 
 var indexRouter = require('./routes/index');
@@ -56,6 +57,14 @@ app.use('/catalog', catalogRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
+});
+
+//multer error handler
+app.use((err, req, res, next) => {
+  if (err instanceof multer.MulterError && err.code === 'LIMIT_FILE_SIZE') {
+      return res.status(400).send({ error: 'File size limit is 300KB' });
+  }
+  next(err);
 });
 
 // error handler

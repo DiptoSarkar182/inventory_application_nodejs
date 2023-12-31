@@ -2,6 +2,7 @@ const { body, validationResult } = require("express-validator");
 const Movie = require('../models/movie');
 const Director = require('../models/director');
 const Genre = require('../models/genre');
+const Admin = require('../models/admin');
 const MovieInstance = require('../models/movieinstance');
 const asyncHandler = require('express-async-handler');
 
@@ -42,9 +43,16 @@ exports.genre_create_get = (req, res, next) => {
       .trim()
       .isLength({min:3})
       .escape(),
+      body("desc", "Description must contain at least 3 characters")
+      .trim()
+      .isLength({min:3})
+      .escape(),
     asyncHandler(async (req, res, next)=>{
       const errors = validationResult(req);
-      const genre = new Genre({name:req.body.name});
+      const genre = new Genre({
+        name:req.body.name,
+        description:req.body.desc,
+      });
   
       if (!errors.isEmpty()) {
        
@@ -85,7 +93,11 @@ exports.genre_create_get = (req, res, next) => {
     });
   });
 
-  exports.genre_delete_post = asyncHandler(async (req, res, next) => {
+  exports.genre_delete_post = [
+    
+    body("password", "wrong password"),
+
+    asyncHandler(async (req, res, next) => {
     const [genre, moviesInGenre] = await Promise.all([
       Genre.findById(req.params.id).exec(),
       Movie.find({ genre: req.params.id }, "title summary").exec(),
@@ -99,10 +111,17 @@ exports.genre_create_get = (req, res, next) => {
       });
       return;
     } else {
-      await Genre.findByIdAndDelete(req.body.id);
-      res.redirect("/catalog/genres");
+      const passwordExists = await Admin.findOne({
+        password:req.body.password
+      }).exec();
+      if(!passwordExists){
+        res.send('wrong password');
+      } else{
+        await Genre.findByIdAndDelete(req.body.id);
+        res.redirect("/catalog/genres");
+      }
     }
-  });
+  })];
 
   exports.genre_update_get = asyncHandler(async (req, res, next) => {
     const genre = await Genre.findById(req.params.id).exec();
@@ -121,11 +140,16 @@ exports.genre_create_get = (req, res, next) => {
       .trim()
       .isLength({ min: 3 })
       .escape(),
+      body("desc", "Description must contain at least 3 characters")
+      .trim()
+      .isLength({min:3})
+      .escape(),
   
     asyncHandler(async (req, res, next) => {
       const errors = validationResult(req);
       const genre = new Genre({
         name: req.body.name,
+        description:req.body.desc,
         _id: req.params.id,
       });
   

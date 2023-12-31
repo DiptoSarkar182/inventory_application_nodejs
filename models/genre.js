@@ -6,7 +6,11 @@ const GenreSchema = new Schema({
         type: String,
         maxLength:100,
         required: true,
-    }
+    },
+    description:{
+        type: String,
+        required: true,
+    },
 });
 
 GenreSchema.virtual('genre_url').get(function () {

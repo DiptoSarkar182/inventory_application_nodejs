@@ -3,10 +3,10 @@ extends layout
 block content
   h1= title
 
-  form(method='POST')
+  form(method='POST' action="" enctype="multipart/form-data")
     div.form-group
       label(for='title') Title:
-      input#title.form-control(type='text', placeholder='Name of movie' name='title' required )
+      input#title.form-control(type='text', placeholder='Name of movie' name='title' required value=(undefined===movie ? '' : movie.title))
     div.form-group
       label(for='director') Director:
       select#director.form-control(name='director' required)
@@ -21,13 +21,16 @@ block content
             option(value=director._id) #{director.name}
     div.form-group
       label(for='summary') Summary:
-      textarea#summary.form-control(placeholder='Summary' name='summary' required)
+      textarea#summary.form-control(placeholder='Summary' name='summary' required)=(undefined===movie ? '' : movie.summary)
     div.form-group
       label(for='imdb_url') IMDB URL:
-      input#imdb_url.form-control(type='text', placeholder='https://www.imdb.com/title/tt1160419/' name='imdb_url' required)
+      input#imdb_url.form-control(type='text', placeholder='https://www.imdb.com/title/tt1160419/' name='imdb_url' required value=(undefined===movie ? '' : movie.url))
     div.form-group
       label(for='imdb_rating') IMDB Rating:
-      input#imdb_rating.form-control(type='number', placeholder='(1.0-10.0)', name='imdb_rating', min='1.0', max='10.0', step='0.1', required)
+      input#imdb_rating.form-control(type='number', placeholder='(1.0-10.0)', name='imdb_rating', min='1.0', max='10.0', step='0.1', required value=(undefined===movie ? '' : movie.rating))
+    div.form-group
+      label(for='image') Image:
+      input#image.form-control-file(type='file', name='image')
     div.form-group
       label Genre:
       div

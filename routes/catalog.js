@@ -6,6 +6,8 @@ const genre_controller = require('../controllers/genreController');
 const movie_controller = require('../controllers/movieController');
 const movie_instance_controller = require('../controllers/movieinstanceController');
 
+
+
 router.get("/", movie_controller.index);
 
 router.get("/movies", movie_controller.movie_list);

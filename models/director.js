@@ -19,6 +19,9 @@ const DirectorSchema = new Schema({
     date_of_death: {
         type: Date,//yyyy-mm-dd
     },
+    image:{
+         type: String,
+    },
 });
 
 DirectorSchema.virtual('director_url').get(function () {
@@ -48,13 +51,24 @@ DirectorSchema.virtual("lifespan").get(function(){
         lifespan = `${DateTime.fromJSDate(this.date_of_birth).toLocaleString(DateTime.DATE_MED)} - ${DateTime.fromJSDate(this.date_of_death).toLocaleString(DateTime.DATE_MED)}`;
     }
     else if(this.date_of_birth){
-        lifespan = `${DateTime.fromJSDate(this.date_of_birth).toLocaleString(DateTime.DATE_MED)} - `;
+        const dob = DateTime.fromJSDate(this.date_of_birth);
+        const today = DateTime.now();
+        const age = today.diff(dob, 'years').years;
+        lifespan = `${Math.floor(age)} years old`;
     }
     else{
-        lifespan = "-";
+        lifespan = "No Info";
     }
     return lifespan;
 })
+
+DirectorSchema.virtual("date_of_birth_yyyy_mm_dd").get(function () {
+    return DateTime.fromJSDate(this.date_of_birth).toISODate(); // format 'YYYY-MM-DD'
+  });
+  
+DirectorSchema.virtual("date_of_death_yyyy_mm_dd").get(function () {
+    return DateTime.fromJSDate(this.date_of_death).toISODate(); // format 'YYYY-MM-DD'
+});
 
 
 module.exports = mongoose.model("Director", DirectorSchema);

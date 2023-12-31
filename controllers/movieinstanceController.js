@@ -3,6 +3,7 @@ const Movie = require('../models/movie');
 const Director = require('../models/director');
 const Genre = require('../models/genre');
 const MovieInstance = require('../models/movieinstance');
+const Admin = require('../models/admin');
 const asyncHandler = require('express-async-handler');
 
 exports.movie_instance_list = asyncHandler(
@@ -95,10 +96,21 @@ exports.movie_instance_delete_get = asyncHandler(async (req, res, next) => {
     });
   });
 
-  exports.movie_instance_delete_post = asyncHandler(async (req, res, next) => {
-    await MovieInstance.findByIdAndDelete(req.body.id);
-    res.redirect("/catalog/movieinstances");
-  });
+  exports.movie_instance_delete_post = [
+    body("password", "wrong password"),
+    asyncHandler(async (req, res, next) => {
+
+      const passwordExists = await Admin.findOne({
+        password:req.body.password
+      }).exec();
+      if(!passwordExists){
+        res.send('wrong password');
+      }
+      else{
+        await MovieInstance.findByIdAndDelete(req.body.id);
+        res.redirect("/catalog/movieinstances");
+      }
+  })];
 
   exports.movie_instance_update_get = asyncHandler(async (req, res, next) => {
     const [movieInstance, allMovies] = await Promise.all([

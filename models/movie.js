@@ -27,6 +27,7 @@ const MovieSchema = new Schema({
         type: Number,
         required: true,
     },
+    image: { type: String },
 })
 
 MovieSchema.virtual('movie_url').get(function () {
