@@ -4,7 +4,8 @@ const path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const multer = require("multer");
-//const dev_db_url = require('./mongoDB_uri');
+require('dotenv').config()
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
